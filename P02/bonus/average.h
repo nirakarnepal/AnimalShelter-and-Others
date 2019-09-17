@@ -3,6 +3,7 @@
 #include <string>
 #include <ctime>
 #include <cstdlib>
+#include<vector>
 
 using namespace std;
 
@@ -11,6 +12,7 @@ class Average{
 
    double _sum;
    int _values;
+   vector<Average>avg;
 
  public:
 

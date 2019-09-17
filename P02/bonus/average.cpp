@@ -20,7 +20,7 @@ std:: ostream& operator << (std::ostream& ost, Average& average)
        }
        else
        {
-          ost<<(average._sum / average._values) << "\n";        
+          ost<<avg.push_back((average._sum / average._values)) << "\n";        
        }
      
    return ost;
