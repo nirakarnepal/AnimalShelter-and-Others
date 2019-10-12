@@ -1,3 +1,6 @@
+#ifndef MAINWIN_H
+#define MAINWIN_H
+
 #include <gtkmm.h>
 
 class Mainwin : public Gtk::Window {
@@ -14,3 +17,5 @@ class Mainwin : public Gtk::Window {
     Gtk::Label* label;
 
 };
+
+#endif
