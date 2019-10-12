@@ -6,6 +6,6 @@ all: mainwin
 mainwin: main.cpp mainwin.cpp *h
 	$(CXX) $(CXXFLAGS) main.cpp mainwin.cpp $(GTKFLAGS) -o mainwin
 clean:
-	rm -f *.o *.gch hello
+	rm -f *.o *.gch mainwin
 
 
