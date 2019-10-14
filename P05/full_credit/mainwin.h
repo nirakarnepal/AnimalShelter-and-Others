@@ -17,10 +17,10 @@ class Mainwin : public Gtk::Window {
         Gtk::MenuItem* menuitem_place_order;
         Gtk::MenuItem* menuitem_list_orders;
 
-        Gtk::ToolButtom* add_sweet_button;
-        Gtk::ToolButtom* list_sweets_button;
-        Gtk::ToolButtom* place_order_button;
-        Gtk::ToolButtom* list_orders_button;
+        Gtk::ToolButton* add_sweet_button;
+        Gtk::ToolButton* list_sweets_button;
+        Gtk::ToolButton* place_order_button;
+        Gtk::ToolButton* list_orders_button;
 
         Gtk::Label* data;
         Gtk::Label* msg;
