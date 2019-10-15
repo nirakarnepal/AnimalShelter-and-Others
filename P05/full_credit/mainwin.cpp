@@ -11,14 +11,14 @@ Mainwin::Mainwin(Store& store) : _store{&store} {
     set_default_size(600, 800);
     set_title("Sweet");
   
-    Gtk::Box *vbox = Gtk::manage(new Gtk::Box(Gtk::ORIENTATION_VERTICAL. 0));
+    Gtk::Box *vbox = Gtk::manage(new Gtk::Box(Gtk::ORIENTATION_VERTICAL, 0));
     add(*vbox);
 
 
     // ///////
     // M E N U
     // Add and configure a menu bar as the top item in the vertical box
-    Gtk::MenuBar *menubar = Gtk::manage(new Gtk::ManuBar());
+    Gtk::MenuBar *menubar = Gtk::manage(new Gtk::MenuBar());
     vbox->pack_start(*menubar, Gtk::PACK_SHRINK,0);
  
 
@@ -31,26 +31,32 @@ Mainwin::Mainwin(Store& store) : _store{&store} {
     //now we add buttons for add sweet, list sweet, place order, list orders 
 
     //for New store
-    Gtk::ToolButton *new_store_button = Gtk:manage(new Gtk::ToolButton(Gtk::Stock::NEW));
+    Gtk::ToolButton *new_store_button = Gtk::manage(new Gtk::ToolButton(Gtk::Stock::NEW));
     new_store_button->set_tooltip_markup("This will clear everything in the store");
     new_store_button->signal_clicked().connect([this]{this->on_new_store_click();});
     toolbar->append(*new_store_button); 
 
     // for adding sweet
-    add_sweet_button = Gtk::manage(new Gtk::Image{"add_chocolate.png"});
+    Gtk::ToolButton *add_sweet_button = Gtk::manage(new Gtk::ToolButton(Gtk::Stock::NEW));
+    //Gtk::Image *addImage = Gtk::manage(new Gtk::Image{"add_chocolate.png"});
+    //add_sweet_button = Gtk::manage(new Gtk::Image{*addImage});
     add_sweet_button->set_tooltip_markup("Add sweets,Name of sweet and Price to sell reqiuired.");
     add_sweet_button->signal_clicked().connect([this]{this->on_add_sweet_click();});
     toolbar->append(*add_sweet_button);
 
     // for listing sweets added
-    list_sweets_button = Gtk::manage(new Gtk::Image{"add_chocolate.png"});
+    Gtk::ToolButton *list_sweets_button = Gtk::manage(new Gtk::ToolButton(Gtk::Stock::NEW));
+    //Gtk::Image *sweetImage = Gtk::manage(new Gtk::Image{"add_chocolate.png"});
+    //list_sweets_button = Gtk::manage(new Gtk::Image{*sweetImage});
     list_sweets_button->set_tooltip_markup("List the Added sweets");
     list_sweets_button->signal_clicked().connect([this]{this->on_list_sweets_click();});
     toolbar->append(*list_sweets_button);
 
 
     //to place the order
-    place_order_button = Gtk::manage(new Gtk::Image{"order.png"});
+    Gtk::ToolButton *place_order_button = Gtk::manage(new Gtk::ToolButton(Gtk::Stock::NEW));
+    //Gtk::Image *orderImage = Gtk::manage(new Gtk::Image{"order.png"});
+    //place_order_button = Gtk::manage(new Gtk::Image{*orderImage});
     place_order_button->set_tooltip_markup("Place your order");
     place_order_button->signal_clicked().connect([this]{this->on_place_order_click();});
     toolbar->append(*place_order_button);
