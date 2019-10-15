@@ -20,7 +20,39 @@ Mainwin::Mainwin(Store& store) : _store{&store} {
     // Add and configure a menu bar as the top item in the vertical box
     Gtk::MenuBar *menubar = Gtk::manage(new Gtk::MenuBar());
     vbox->pack_start(*menubar, Gtk::PACK_SHRINK,0);
+
+    /// Creating a file menu and adding Quit and New store.
+     Gtk::MenuItem *menuitem_file = Gtk::manage(new Gtk::MenuItem("_File", true));
+    menubar->append(*menuitem_file);
+    Gtk::Menu *filemenu = Gtk::manage(new Gtk::Menu());
+    menuitem_file->set_submenu(*filemenu);
+
+    /// since file menu is done now we add Quit under files
+    Gtk::MenuItem *menuitem_quit = Gtk::manage(new Gtk::MenuItem("_Quit", true));
+    menuitem_quit->signal_activate().connect([this] {this->on_quit_click();});
+    filemenu->append(*menuitem_quit);
  
+    /// now we add new store option under file menu
+    Gtk::MenuItem *menuitem_new = Gtk::manage(new Gtk::MenuItem("_New Store", true));
+    menuitem_new->signal_activate().connect([this] {this->on_new_store_click();});
+    filemenu->append(*menuitem_new);
+
+
+
+
+     /// adding help menu in the menu bar
+     Gtk::MenuItem *menuitem_help = Gtk::manage(new Gtk::MenuItem("_Help", true));
+    menubar->append(*menuitem_help);
+    Gtk::Menu *helpmenu = Gtk::manage(new Gtk::Menu());
+    menuitem_help->set_submenu(*helpmenu);
+
+
+     /// adding About menu under help
+
+     Gtk::MenuItem *menuitem_about = Gtk::manage(new Gtk::MenuItem("About", true));
+    menuitem_about->signal_activate().connect([this] {this->on_about_click();});
+    helpmenu->append(*menuitem_about);
+
 
     // /////////////
     // T O O L B A R
@@ -33,7 +65,7 @@ Mainwin::Mainwin(Store& store) : _store{&store} {
     //for New store
     Gtk::ToolButton *new_store_button = Gtk::manage(new Gtk::ToolButton(Gtk::Stock::NEW));
     new_store_button->set_tooltip_markup("This will clear everything in the store");
-    new_store_button->signal_clicked().connect([this]{this->on_new_store_click();});
+    new_store_button->signal_clicked().connect([this] {this->on_new_store_click();});
     toolbar->append(*new_store_button); 
 
     // for adding sweet
@@ -41,7 +73,7 @@ Mainwin::Mainwin(Store& store) : _store{&store} {
     //Gtk::Image *addImage = Gtk::manage(new Gtk::Image{"add_chocolate.png"});
     //add_sweet_button = Gtk::manage(new Gtk::Image{*addImage});
     add_sweet_button->set_tooltip_markup("Add sweets,Name of sweet and Price to sell reqiuired.");
-    add_sweet_button->signal_clicked().connect([this]{this->on_add_sweet_click();});
+    add_sweet_button->signal_clicked().connect([this] {this->on_add_sweet_click();});
     toolbar->append(*add_sweet_button);
 
     // for listing sweets added
@@ -49,7 +81,7 @@ Mainwin::Mainwin(Store& store) : _store{&store} {
     //Gtk::Image *sweetImage = Gtk::manage(new Gtk::Image{"add_chocolate.png"});
     //list_sweets_button = Gtk::manage(new Gtk::Image{*sweetImage});
     list_sweets_button->set_tooltip_markup("List the Added sweets");
-    list_sweets_button->signal_clicked().connect([this]{this->on_list_sweets_click();});
+    list_sweets_button->signal_clicked().connect([this] {this->on_list_sweets_click();});
     toolbar->append(*list_sweets_button);
 
 
@@ -58,7 +90,7 @@ Mainwin::Mainwin(Store& store) : _store{&store} {
     //Gtk::Image *orderImage = Gtk::manage(new Gtk::Image{"order.png"});
     //place_order_button = Gtk::manage(new Gtk::Image{*orderImage});
     place_order_button->set_tooltip_markup("Place your order");
-    place_order_button->signal_clicked().connect([this]{this->on_place_order_click();});
+    place_order_button->signal_clicked().connect([this] {this->on_place_order_click();});
     toolbar->append(*place_order_button);
     
 
