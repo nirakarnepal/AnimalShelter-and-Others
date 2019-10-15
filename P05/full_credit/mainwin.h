@@ -10,6 +10,7 @@ class Mainwin : public Gtk::Window {
         Mainwin(Store& store);
         virtual ~Mainwin();
          
+         
 
     private:
         Store *_store;
