@@ -38,7 +38,33 @@ Mainwin::Mainwin(Store& store) : _store{&store} {
     filemenu->append(*menuitem_new);
 
 
+    /// here we create add sweets and list sweets menu under sweets menu
+    Gtk::MenuItem *menuitem_sweets = Gtk::manage(new Gtk::MenuItem("_Sweets", true));
+    menubar->append(*menuitem_sweets);
+    Gtk::Menu *sweetsmenu = Gtk::manage(new Gtk::Menu());
+    menuitem_sweets->set_submenu(*sweetsmenu);
+     /// adding add under sweets menu
+    Gtk::MenuItem *menuitem_add = Gtk::manage(new Gtk::MenuItem("Add", true));
+    menuitem_add->signal_activate().connect([this] {this->on_add_sweet_click();});
+    sweetsmenu->append(*menuitem_add);
+     /// adding list under sweet menu
+     Gtk::MenuItem *menuitem_list= Gtk::manage(new Gtk::MenuItem("List", true));
+    menuitem_list->signal_activate().connect([this] {this->on_list_sweets_click();});
+    sweetsmenu->append(*menuitem_list);
 
+     // adding Order menu
+     Gtk::MenuItem *menuitem_orders = Gtk::manage(new Gtk::MenuItem("_Orders", true));
+    menubar->append(*menuitem_orders);
+    Gtk::Menu *ordersmenu = Gtk::manage(new Gtk::Menu());
+    menuitem_orders->set_submenu(*ordersmenu);
+     /// adding Place under Orderss menu
+    Gtk::MenuItem *menuitem_place = Gtk::manage(new Gtk::MenuItem("Place", true));
+    menuitem_place->signal_activate().connect([this] {this->on_place_order_click();});
+    ordersmenu->append(*menuitem_place);
+     /// adding list under sweet menu
+     Gtk::MenuItem *menuitem_olist= Gtk::manage(new Gtk::MenuItem("List", true));
+    menuitem_olist->signal_activate().connect([this] {this->on_list_order_click();});
+    ordersmenu->append(*menuitem_olist);
 
      /// adding help menu in the menu bar
      Gtk::MenuItem *menuitem_help = Gtk::manage(new Gtk::MenuItem("_Help", true));

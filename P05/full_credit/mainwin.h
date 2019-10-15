@@ -9,6 +9,7 @@ class Mainwin : public Gtk::Window {
         Mainwin();
         Mainwin(Store& store);
         virtual ~Mainwin();
+         
 
     private:
         Store *_store;
@@ -34,6 +35,7 @@ class Mainwin : public Gtk::Window {
         void on_list_order_click();
         void on_about_click();
         void on_quit_click();
+        
     // Lots more Mainwin members are needed!
     // (You ARE permitted to change the above as well if you like.)
 };
