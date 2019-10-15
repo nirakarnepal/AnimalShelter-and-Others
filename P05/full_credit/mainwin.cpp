@@ -9,7 +9,7 @@ Mainwin::Mainwin(Store& store) : _store{&store} {
 
     // Set up a vertical box to hold the main window elements
     set_default_size(600, 800);
-    set_title("Mav's Ultra Sweet Shop");
+    set_title("Ultra Sweet Shop");
   
     Gtk::Box *vbox = Gtk::manage(new Gtk::Box(Gtk::ORIENTATION_VERTICAL, 0));
     add(*vbox);
@@ -145,9 +145,14 @@ Mainwin::Mainwin(Store& store) : _store{&store} {
     // Provide a text entry box to show the sweets and orders
 
     data = Gtk::manage(new Gtk::Label());
+    data->set_hexpand(true);
+    data->set_vexpand(true);
     vbox->add(*data);
+    
 
     msg = Gtk::manage(new Gtk::Label());
+    msg->set_hexpand(true);
+    
     vbox->add(*msg);
      
     // ///////////////////////////////////    
@@ -213,8 +218,8 @@ void Mainwin::on_list_order_click();
 void Mainwin::on_about_click()
 {
              Glib::ustring s = R"(
-<span size='24000' weight='bold'>Mav's Ultra Sweet Shop</span>
-<span size='large'>Copyright 2019, George F. Rice</span>
+<span size='24000' weight='bold'>Ultra Sweet Shop</span>
+<span size='large'>Copyright 2019, Nirakar Nepal</span>
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
