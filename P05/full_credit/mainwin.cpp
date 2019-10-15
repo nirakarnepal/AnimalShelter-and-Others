@@ -26,7 +26,7 @@ Mainwin::Mainwin(Store& store) : _store{&store} {
     menubar->append(*menuitem_file);
     Gtk::Menu *filemenu = Gtk::manage(new Gtk::Menu());
     menuitem_file->set_submenu(*filemenu);
-
+/*
     /// since file menu is done now we add Quit under files
     Gtk::MenuItem *menuitem_quit = Gtk::manage(new Gtk::MenuItem("_Quit", true));
     menuitem_quit->signal_activate().connect([this] {this->on_quit_click();});
@@ -37,13 +37,13 @@ Mainwin::Mainwin(Store& store) : _store{&store} {
     menuitem_new->signal_activate().connect([this] {this->on_new_store_click();});
     filemenu->append(*menuitem_new);
 
-
+*/
     /// here we create add sweets and list sweets menu under sweets menu
     Gtk::MenuItem *menuitem_sweets = Gtk::manage(new Gtk::MenuItem("_Sweets", true));
     menubar->append(*menuitem_sweets);
     Gtk::Menu *sweetsmenu = Gtk::manage(new Gtk::Menu());
     menuitem_sweets->set_submenu(*sweetsmenu);
-     /// adding add under sweets menu
+/*     /// adding add under sweets menu
     Gtk::MenuItem *menuitem_add = Gtk::manage(new Gtk::MenuItem("Add", true));
     menuitem_add->signal_activate().connect([this] {this->on_add_sweet_click();});
     sweetsmenu->append(*menuitem_add);
@@ -51,13 +51,13 @@ Mainwin::Mainwin(Store& store) : _store{&store} {
      Gtk::MenuItem *menuitem_list= Gtk::manage(new Gtk::MenuItem("List", true));
     menuitem_list->signal_activate().connect([this] {this->on_list_sweets_click();});
     sweetsmenu->append(*menuitem_list);
-
+*/
      // adding Order menu
      Gtk::MenuItem *menuitem_orders = Gtk::manage(new Gtk::MenuItem("_Orders", true));
     menubar->append(*menuitem_orders);
     Gtk::Menu *ordersmenu = Gtk::manage(new Gtk::Menu());
     menuitem_orders->set_submenu(*ordersmenu);
-     /// adding Place under Orderss menu
+/*     /// adding Place under Orderss menu
     Gtk::MenuItem *menuitem_place = Gtk::manage(new Gtk::MenuItem("Place", true));
     menuitem_place->signal_activate().connect([this] {this->on_place_order_click();});
     ordersmenu->append(*menuitem_place);
@@ -65,21 +65,21 @@ Mainwin::Mainwin(Store& store) : _store{&store} {
      Gtk::MenuItem *menuitem_olist= Gtk::manage(new Gtk::MenuItem("List", true));
     menuitem_olist->signal_activate().connect([this] {this->on_list_order_click();});
     ordersmenu->append(*menuitem_olist);
-
+*/
      /// adding help menu in the menu bar
      Gtk::MenuItem *menuitem_help = Gtk::manage(new Gtk::MenuItem("_Help", true));
     menubar->append(*menuitem_help);
     Gtk::Menu *helpmenu = Gtk::manage(new Gtk::Menu());
     menuitem_help->set_submenu(*helpmenu);
 
-
+/*
      /// adding About menu under help
 
      Gtk::MenuItem *menuitem_about = Gtk::manage(new Gtk::MenuItem("About", true));
     menuitem_about->signal_activate().connect([this] {this->on_about_click();});
     helpmenu->append(*menuitem_about);
-
-
+*/
+/*
     // /////////////
     // T O O L B A R
     // Add a toolbar to the vertical box just below the menu (bonus level)
@@ -119,7 +119,7 @@ Mainwin::Mainwin(Store& store) : _store{&store} {
     place_order_button->signal_clicked().connect([this] {this->on_place_order_click();});
     toolbar->append(*place_order_button);
     
-
+*/
     // ///////////////////////
     // D A T A   D I S P L A Y
     // Provide a text entry box to show the sweets and orders
@@ -132,6 +132,7 @@ Mainwin::Mainwin(Store& store) : _store{&store} {
 
 
     // Make the vertical box and everything in it visible
+    vbox->show_all();
 
 }
 
