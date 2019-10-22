@@ -1,12 +1,13 @@
 #include "mainwin.h"
 #include "entrydialog.h"
 #include <sstream>
+#include <string>
 
 Mainwin::Mainwin() : Mainwin{*(new Store)} { }
 Mainwin::Mainwin(Store& store) : 
     _store{&store},
-    entry{Gtk::manage(new Gtk::Entry{})},
-    comboboxtext{Gtk::manage(new Gtk::ComboBoxText{true})},
+    //entry{Gtk::manage(new Gtk::Entry{})},
+    //comboboxtext{Gtk::manage(new Gtk::ComboBoxText{true})},
     label{Gtk::manage(new Gtk::Label{"This Label Views Added Sweets"})} {
 
     // /////////////////
@@ -77,7 +78,7 @@ Mainwin::Mainwin(Store& store) :
     /// P L A C E    O R D E R
     /// adding Place under Orderss menu
     Gtk::MenuItem *menuitem_place = Gtk::manage(new Gtk::MenuItem("Place", true));
-    //menuitem_place->signal_activate().connect([this] {this->on_place_order_click();});
+    menuitem_place->signal_activate().connect([this] {this->on_place_order_click();});
     ordersmenu->append(*menuitem_place);
      
      /// L I S T   O R D E R S
@@ -256,14 +257,24 @@ void Mainwin::on_list_sweets_click()
     }
 }
 
-/*
+
 void Mainwin::on_place_order_click()
 {
+
+    if(_store->num_sweets()<1)
+     {
+       msg->set_text("### Please Add Sweets First ###");
+       data->set_text("### Please Add Sweets First ###");
+       return;
+ 
+     }
+
+
+
     Gtk::Dialog *dialog = new Gtk::Dialog("Place your Order", *this);
     double quantity;
     Order order;
     int sweet = 0;
-
     
   ///framework
    
@@ -271,22 +282,24 @@ void Mainwin::on_place_order_click()
     Gtk::Label l_name ("Quantity:");
     l_name.set_width_chars(15);
     b_quantity.pack_start(l_name, Gtk::PACK_SHRINK);
-
 /// ready to enter value.
-
     Gtk::Entry e_quantity;
     e_quantity.set_max_length(50);
     b_quantity.pack_start(e_quantity, Gtk::PACK_SHRINK);
     dialog->get_vbox()->pack_start(b_quantity, Gtk::PACK_SHRINK);
 
-/// loading options
 
-    Gtk::ComboBoxText b_sweets;
-    for(int i = 0; i<)   
-
-//// Bottons to cancel and place orders.
+   Gtk::ComboBoxText b_sweets;
+   dialog->get_vbox()->pack_start(b_sweets);
+    for(int i = 0; i<_store->num_sweets(); i++)
+       {
+         b_sweets.append(_store->sweet(i).name());
+         b_sweets.set_active(1);
+       }  
+    
+    //// Bottons to cancel and place orders.
     dialog->add_button("Cancel",0);
-    dialog->add_button("Add",1)
+    dialog->add_button("Add",1);
     dialog->add_button("Order",2);
     
     dialog->show_all(); 
@@ -294,6 +307,51 @@ void Mainwin::on_place_order_click()
     int result;
     bool fail = true;
    
+    while (fail)
+    {
+       fail = false;
+       result = dialog->run();
+       if(result !=1)
+       {
+         msg->set_text("Order Cancelled");
+         delete dialog;
+         return;
+       }
+         quantity = std::stod(e_quantity.get_text());
+        
+    }
+      if (quantity > 0 )
+      {  
+        
+         order.add(quantity, _store->sweet(sweet));
+      }
+      _store->add(order);
+}
+/// loading options
+/*
+    
+    
+//// Bottons to cancel and place orders.
+    dialog->add_button("Cancel",0);
+    dialog->add_button("Add",1);
+    dialog->add_button("Order",2);
+    
+    dialog->show_all(); 
+    dialog->get_vbox()->show_all();
+   //  sweet = b_sweets.get_active_row_number();
+   //  quantity = std::stoi(e_quantity.get_text());
+
+   //  order.add(quantity, _store->sweet(sweet));
+   // result = dialog->run();
+
+   // //} while(result == 1);
+
+   // if(order.size()>0)
+   // {
+   //   _store->add(order);
+   // }
+}
+ /*  
     while (fail)
     {
        fail = false;
