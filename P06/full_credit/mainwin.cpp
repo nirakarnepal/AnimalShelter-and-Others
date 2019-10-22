@@ -272,9 +272,10 @@ void Mainwin::on_place_order_click()
 
 
     Gtk::Dialog *dialog = new Gtk::Dialog("Place your Order", *this);
-    double quantity;
+    int quantity;
     Order order;
     int sweet = 0;
+    int result;
     
   ///framework
    
@@ -304,28 +305,44 @@ void Mainwin::on_place_order_click()
     
     dialog->show_all(); 
     
-    int result;
+    
+    
     bool fail = true;
    
     while (fail)
     {
-       fail = false;
+       
        result = dialog->run();
-       if(result !=1)
+       if(result ==1) 
        {
-         msg->set_text("Order Cancelled");
-         delete dialog;
-         return;
+         sweet = b_sweets.get_active_row_number();
+         quantity = std::stoi(e_quantity.get_text());
+         order.add(quantity,_store->sweet(sweet));
+         msg->set_text(_store->sweet(sweet).name() + "Is Added to the order");
+         
        }
-         quantity = std::stod(e_quantity.get_text());
+       if (result == 0)
+        {
+          if(order.size()==0)
+           {
+             msg->set_text("Order Cancled!!");
+             delete dialog;
+             return;
+           }
+        } 
+
+        if (result == 2 && order.size()>0)
+        {
+          _store->add(order);
+          msg->set_text("Your Order has been placed");
+          data->set_text("Order has been placed");
+          delete dialog;
+          return;
+        } 
+         
         
     }
-      if (quantity > 0 )
-      {  
-        
-         order.add(quantity, _store->sweet(sweet));
-      }
-      _store->add(order);
+      
 }
 /// loading options
 /*
