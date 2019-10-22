@@ -77,7 +77,7 @@ Mainwin::Mainwin(Store& store) :
     /// P L A C E    O R D E R
     /// adding Place under Orderss menu
     Gtk::MenuItem *menuitem_place = Gtk::manage(new Gtk::MenuItem("Place", true));
-    menuitem_place->signal_activate().connect([this] {this->on_place_order_click();});
+    //menuitem_place->signal_activate().connect([this] {this->on_place_order_click();});
     ordersmenu->append(*menuitem_place);
      
      /// L I S T   O R D E R S
@@ -248,7 +248,7 @@ void Mainwin::on_list_sweets_click()
 
     }
     std:: string s = "";
-    for(int i = 0; i<_store->num_sweets(); i++)
+    for(int i = 0; i<_store->num_sweets(); ++i)
     {
       s = s + _store->sweet(i).name() + "$ " + std::to_string(_store->sweet(i).price()) + "\n" ;
       data->set_text( s);
@@ -256,11 +256,13 @@ void Mainwin::on_list_sweets_click()
     }
 }
 
-
+/*
 void Mainwin::on_place_order_click()
 {
     Gtk::Dialog *dialog = new Gtk::Dialog("Place your Order", *this);
     double quantity;
+    Order order;
+    int sweet = 0;
 
     
   ///framework
@@ -306,10 +308,17 @@ void Mainwin::on_place_order_click()
         
 
     }
+      if (quantity > 0 )
+      {  
+        
+         order->add(quantity, _store->sweet(sweet));
+      }
+      _store->add(order);
 }
 /*
-void Mainwin::on_list_order_click();
+void Mainwin::on_list_order_click()
 {
+    int order;
     if(_store->num_orders()==0)
     {
       data->set_text("No order placed, Please place order.");
