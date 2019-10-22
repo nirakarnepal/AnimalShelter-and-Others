@@ -354,6 +354,14 @@ void Mainwin::on_place_order_click()
 
 void Mainwin::on_list_order_click()
 {
+
+        if(_store->num_sweets()<1)
+     {
+       msg->set_text("### Please Place Order First ###");
+       data->set_text("### Please Place Order First ###");
+       return;
+ 
+     }
     std::string ordername ="";
     int order;
     order = _store->num_orders();
