@@ -84,7 +84,7 @@ Mainwin::Mainwin(Store& store) :
      /// L I S T   O R D E R S
      /// adding list under sweet menu
      Gtk::MenuItem *menuitem_olist= Gtk::manage(new Gtk::MenuItem("List", true));
-    //menuitem_olist->signal_activate().connect([this] {this->on_list_order_click();});
+    menuitem_olist->signal_activate().connect([this] {this->on_list_order_click();});
     ordersmenu->append(*menuitem_olist);
 
 
@@ -151,7 +151,7 @@ Mainwin::Mainwin(Store& store) :
     //Gtk::Image *orderImage = Gtk::manage(new Gtk::Image{"order.png"});
     //place_order_button = Gtk::manage(new Gtk::Image{*orderImage});
     list_orders_button->set_tooltip_markup("List your orders");
-    //list_orders_button->signal_clicked().connect([this] {this->on_list_order_click();});
+    list_orders_button->signal_clicked().connect([this] {this->on_list_order_click();});
     toolbar->append(*list_orders_button);
     
 
@@ -307,8 +307,8 @@ void Mainwin::on_place_order_click()
     
     
     
-    bool fail = true;
-   
+    
+   bool fail = true;
     while (fail)
     {
        
@@ -319,6 +319,7 @@ void Mainwin::on_place_order_click()
          quantity = std::stoi(e_quantity.get_text());
          order.add(quantity,_store->sweet(sweet));
          msg->set_text("Sweets added in the order");
+         fail = true;
          
        }
        
@@ -328,7 +329,8 @@ void Mainwin::on_place_order_click()
            {
              msg->set_text("Order Cancled!!");
              delete dialog;
-             return;
+             
+             fail= false;
            }
         } 
 
@@ -338,63 +340,77 @@ void Mainwin::on_place_order_click()
           msg->set_text("Your Order has been placed");
           data->set_text("Order has been placed");
           delete dialog;
-          return;
+          
+          fail = false;
         } 
          
         
     }
       
 }
-/// loading options
-/*
-    
-    
-//// Bottons to cancel and place orders.
-    dialog->add_button("Cancel",0);
-    dialog->add_button("Add",1);
-    dialog->add_button("Order",2);
-    
-    dialog->show_all(); 
-    dialog->get_vbox()->show_all();
-   //  sweet = b_sweets.get_active_row_number();
-   //  quantity = std::stoi(e_quantity.get_text());
 
-   //  order.add(quantity, _store->sweet(sweet));
-   // result = dialog->run();
 
-   // //} while(result == 1);
 
-   // if(order.size()>0)
-   // {
-   //   _store->add(order);
-   // }
-}
- /*  
-    while (fail)
-    {
-       fail = false;
-       result = dialog->run();
-       if(result !=1)
-       {
-         msg->set_text("Order Cancelled");
-         delete dialog;
-         return;
-       }
-         quantity = std::stod(e_quantity.get_text());
-        
 
-    }
-      if (quantity > 0 )
-      {  
-        
-         order->add(quantity, _store->sweet(sweet));
-      }
-      _store->add(order);
-}
-/*
 void Mainwin::on_list_order_click()
 {
+
+        if(_store->num_sweets()<1)
+     {
+       msg->set_text("### Please Place Order First ###");
+       data->set_text("### Please Place Order First ###");
+       return;
+ 
+     }
+    std::string ordername ="";
     int order;
+    order = _store->num_orders();
+    int choose = order-1;
+    EntryDialog edialog{*this, "Choose from 0 to "+ std::to_string(choose)};
+    edialog.run();
+    //edialog.set_text("Choose from 0 to "+ std::to_string(choose));
+    int view = std::stod(edialog.get_text());
+    msg->set_text("Order Listed");
+    std::string price = std::to_string(_store->order(view).price());
+     std:: string s = "";
+    ordername = "Order #" + std::to_string(order) + " ($" + price + ")\n" + s + " \n";  
+    
+     data->set_text(ordername);
+//+ _store->order(order) + " \n";//+ _store->order(order).price()
+ }/*  if(_store->num_orders()<1)
+     {
+       msg->set_text("### Please Place Order First ###");
+       data->set_text("### Please Place Order First ###");
+       return;
+ 
+     }
+
+
+
+    Gtk::Dialog *ldialog = new Gtk::Dialog("Listing Orders", *this);
+    int order;
+    int result;
+    
+  ///framework
+  
+    
+    Gtk::HBox b_order; 
+    Gtk::Label l_order ("Order Number:");
+    l_order.set_width_chars(15);
+    b_order.pack_start(l_order, Gtk::PACK_SHRINK);
+/// ready to enter value.
+    Gtk::Entry e_order;
+    e_order.set_max_length(50);
+    b_order.pack_start(e_order, Gtk::PACK_SHRINK);
+    ldialog->get_vbox()->pack_start(b_order, Gtk::PACK_SHRINK); 
+
+
+    ldialog->add_button("Cancel",0);
+    ldialog->add_button("List",1);
+    
+    
+    ldialog->show_all();
+}/*    int order;
     if(_store->num_orders()==0)
     {
       data->set_text("No order placed, Please place order.");
