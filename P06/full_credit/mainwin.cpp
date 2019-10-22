@@ -142,7 +142,7 @@ Mainwin::Mainwin(Store& store) :
     //Gtk::Image *orderImage = Gtk::manage(new Gtk::Image{"order.png"});
     //place_order_button = Gtk::manage(new Gtk::Image{*orderImage});
     place_order_button->set_tooltip_markup("Place your order");
-    //place_order_button->signal_clicked().connect([this] {this->on_place_order_click();});
+    place_order_button->signal_clicked().connect([this] {this->on_place_order_click();});
     toolbar->append(*place_order_button);
 
 
@@ -318,9 +318,10 @@ void Mainwin::on_place_order_click()
          sweet = b_sweets.get_active_row_number();
          quantity = std::stoi(e_quantity.get_text());
          order.add(quantity,_store->sweet(sweet));
-         msg->set_text(_store->sweet(sweet).name() + "Is Added to the order");
+         msg->set_text("Sweets added in the order");
          
        }
+       
        if (result == 0)
         {
           if(order.size()==0)
