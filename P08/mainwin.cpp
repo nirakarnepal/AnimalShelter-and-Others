@@ -40,6 +40,7 @@ Mainwin::Mainwin()
     // Q U I T
     /// since file menu is done now we add Quit under files
     Gtk::MenuItem *menuanimal_quit = Gtk::manage(new Gtk::MenuItem("_Quit", true));
+    menuanimal_quit->set_tooltip_markup("Exit the program");
     menuanimal_quit->signal_activate().connect([this] {this->on_quit_click();});
     filemenu->append(*menuanimal_quit);
 
@@ -54,14 +55,63 @@ Mainwin::Mainwin()
     // A D D   A N I M A L S
     /// adding add under Animals menu
     Gtk::MenuItem *menuanimal_new = Gtk::manage(new Gtk::MenuItem("Add Animal", true));
+    menuanimal_new->set_tooltip_markup("Add a New Animal");
     menuanimal_new->signal_activate().connect([this] {this->on_new_animal_click();});
     animalsmenu->append(*menuanimal_new);
-    /// L I S T   S W E E T S 
-    /// adding list under sweet menu
+
+    /// L I S T   Available animals
+    /// adding list under animals menu
     Gtk::MenuItem *menuanimal_list= Gtk::manage(new Gtk::MenuItem("List Animals", true));
+    menuanimal_list->set_tooltip_markup("List All Animal Data");
     //menuanimal_list->signal_activate().connect([this] {this->on_new_animal_clickl();});
     animalsmenu->append(*menuanimal_list);
 
+
+  // /////////////
+    // T O O L B A R
+    // Add a toolbar to the vertical box below the menu
+    Gtk::Toolbar *toolbar = Gtk::manage(new Gtk::Toolbar);
+    vbox->add(*toolbar);
+
+
+//to Add Animals
+    Gtk::ToolButton *add_animal_button = Gtk::manage(new Gtk::ToolButton(Gtk::Stock::ADD));
+    //Gtk::Image *orderImage = Gtk::manage(new Gtk::Image{"order.png"});
+    //place_order_button = Gtk::manage(new Gtk::Image{*orderImage});
+    add_animal_button->set_tooltip_markup("Add a New Animal");
+    add_animal_button->signal_clicked().connect([this] {this->on_new_animal_click();});
+    toolbar->append(*add_animal_button);
+
+
+   ///list orders button
+    Gtk::ToolButton *list_animal_button = Gtk::manage(new Gtk::ToolButton(Gtk::Stock::HARDDISK));
+    //Gtk::Image *orderImage = Gtk::manage(new Gtk::Image{"order.png"});
+    //place_order_button = Gtk::manage(new Gtk::Image{*orderImage});
+    list_animal_button->set_tooltip_markup("List All Animal Data");
+    //list_animal_button->signal_clicked().connect([this] {this->on_list_order_click();});
+    toolbar->append(*list_animal_button);
+    
+
+
+//////////////for Quit button
+
+    Gtk::ToolButton *quit_button = Gtk::manage(new Gtk::ToolButton(Gtk::Stock::QUIT));
+    quit_button->set_tooltip_markup("Exit the program");
+    quit_button->signal_clicked().connect([this] {this->on_quit_click();});
+    toolbar->append(*quit_button);
+
+    // D A T A   D I S P L A Y
+    // Provide a text entry box to show the remaining sticks
+    data = Gtk::manage(new Gtk::Label());
+    data->set_hexpand(true);
+    data->set_vexpand(true);
+    vbox->add(*data);
+
+    // S T A T U S   B A R   D I S P L A Y
+    // Provide a status bar for transient messages
+    msg = Gtk::manage(new Gtk::Label());
+    msg->set_hexpand(true);
+    vbox->add(*msg);
 
 
     vbox->show_all();
