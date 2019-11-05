@@ -2,7 +2,11 @@
 #include "entrydialog.h"
 #include <sstream>
 #include <string>
-
+//#include "shelter.h"
+int count = 1;
+//int size = 0;
+std::vector<std::string> vec;
+//std:: string trick = " ";
 Mainwin::Mainwin()  
 {
 
@@ -63,7 +67,7 @@ Mainwin::Mainwin()
     /// adding list under animals menu
     Gtk::MenuItem *menuanimal_list= Gtk::manage(new Gtk::MenuItem("List Animals", true));
     menuanimal_list->set_tooltip_markup("List All Animal Data");
-    //menuanimal_list->signal_activate().connect([this] {this->on_new_animal_clickl();});
+    //menuanimal_list->signal_activate().connect([this] {this->on_list_animal_click();});
     animalsmenu->append(*menuanimal_list);
 
 
@@ -83,12 +87,12 @@ Mainwin::Mainwin()
     toolbar->append(*add_animal_button);
 
 
-   ///list orders button
+   ///list Animal button
     Gtk::ToolButton *list_animal_button = Gtk::manage(new Gtk::ToolButton(Gtk::Stock::HARDDISK));
     //Gtk::Image *orderImage = Gtk::manage(new Gtk::Image{"order.png"});
-    //place_order_button = Gtk::manage(new Gtk::Image{*orderImage});
+    //list_animal_button = Gtk::manage(new Gtk::Image{*orderImage});
     list_animal_button->set_tooltip_markup("List All Animal Data");
-    //list_animal_button->signal_clicked().connect([this] {this->on_list_order_click();});
+    //list_animal_button->signal_clicked().connect([this] {this->on_list_animal_click();});
     toolbar->append(*list_animal_button);
     
 
@@ -130,10 +134,11 @@ void Mainwin::on_new_animal_click()
 
     Gtk::Dialog *dialog = new Gtk::Dialog("Add animal", *this);
     int age;
+    int row;
    
-    std::string gender;
+    std::string gender = "";
     int result;
-    std::string name;
+    std::string name = "";
     
   ///framework
    
@@ -169,64 +174,83 @@ void Mainwin::on_new_animal_click()
     //b_gen.set_max_length(50);
     b_gender.pack_start(b_gen, Gtk::PACK_SHRINK);
     dialog->get_vbox()->pack_start(b_gender, Gtk::PACK_SHRINK);
-    b_gen.append("male");
-    b_gen.append("female");
+    b_gen.append("Male");
+    b_gen.append("Female");
     b_gen.set_active(1);
 
-//    dialog->get_vbox()->pack_start(b_gen);
-//    b_gen.append("male");
-//    b_gen.append("female");
-//    b_gen.set_active(1);
-   
+
     
     //// Bottons to cancel and add Animal.
     dialog->add_button("Cancel",0);
     dialog->add_button("Add",1);
+    dialog->add_button("Done",2);
     
     
-    dialog->show_all(); 
-    dialog->run();
-//    
-//    
-//    
-//    
-//   bool fail = true;
-//    while (fail)
-//    {
-//       
-//       result = dialog->run();
-//       if(result ==1) 
-//       {
-//         sweet = b_sweets.get_active_row_number();
-//         quantity = std::stoi(e_quantity.get_text());
-//         order.add(quantity,_store->sweet(sweet));
-//         msg->set_text("Sweets added in the order");
-//         fail = true;
-//         
-//       }
-//       
-//       if (result == 0)
-//        {
-//          if(order.size()==0)
-//           {
-//             msg->set_text("Order Cancled!!");
-//             delete dialog;
-//             
-//             fail= false;
-//           }
-//        } 
+    dialog->show_all();
+    result = dialog->run(); 
 
-//        if (result == 2 && order.size()>0)
-//        {
-//          _store->add(order);
-//          msg->set_text("Your Order has been placed");
-//          data->set_text("Order has been placed");
-//          delete dialog;
-//          
-//          fail = false;
-//        } 
-//         
-//        
-//    }
+    bool fail = true;
+
+    
+     if (result == 0)
+        {
+             msg->set_text("Adding animals Cancled!!");
+             delete dialog;
+             //fail = false;
+           
+        }
+      if (result == 1)
+        {
+          name = e_name.get_text();
+          vec.push_back(name);
+          age = std::stoi(e_age.get_text());
+          //age = std::to_string(age);
+          vec.push_back(e_age.get_text());
+          row = b_gen.get_active_row_number();
+             if(row == 0)
+                gender = "Male";
+             else
+                gender =  "Female";
+           
+           vec.push_back(gender);
+          data->set_markup("<b>Number of dog available:</b> "+ std::to_string(count) + "\n<b>Name:</b> "+ name + "\n<b>Age:</b> "+ std::to_string(age) + "\n<b>Gender</b> :" + gender + "\n" );
+           count++;
+           
+          delete dialog;
+        }
+
+       if (result == 2)
+        {
+          
+          msg->set_text("These are the available dog:");
+          delete dialog;
+          
+          //fail = false;
+        } 
+
+
+     // Animal animal{name,gender,age};
+     // _shelter->add(animal);
+
       
 }
+
+//void on_list_animal_click(){
+//  
+//  std::string title = "Name         Age        Gender";
+//   std::string line = "-------------------------------------";
+//  while(size != vec.size())
+
+//   {
+//      if (vec.size()>= 3 )
+//       {
+//         trick = vec[size] + "     " + vec[size+1] + "   " + vec[size+2] + "\n";
+//       }   
+//     size = size + 3 ;
+
+//    }
+//    Gtk::MessageDialog{*this, "Ouch!"}.run();
+//    
+
+
+//}

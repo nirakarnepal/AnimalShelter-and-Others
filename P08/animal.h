@@ -20,7 +20,7 @@ class  Animal{
         int _age;
 
     public:
-        Animal(Dog_breed breed, std::string name, Gender gender, int age);
+        Animal(std::string name, Gender gender, int age);
         ~Animal();
         std::string family();
         std::string breed();

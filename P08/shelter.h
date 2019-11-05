@@ -1,19 +1,21 @@
 #ifndef __SHELTER_H
 #define __SHELTER_H
 
-#include "animal.h"
+//#include "animal.h"
+#include <string>
+#include <vector>
 
 class Shelter{
   public:
-    //void add(Order& order);
-    int num_orders();
-    const Order& order(int number);
 
-    //void add(Sweet& sweet);
-    int num_sweets();
-    const Sweet& sweet(int number);
+    Shelter(std::string _name);
+    std::string name();
+    void add_animal(Animal& animal);
+    int num_animals();
+    Animal &animal(int index);
+
   private:
     std::string _name;
-    std::vector<Animal*> _available;
+  //  std::vector<Animal*> _available;
 };
 #endif
