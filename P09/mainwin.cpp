@@ -107,7 +107,9 @@ Mainwin::Mainwin() : shelter{new Shelter{"Mavs Animal Shelter"}} {
     data = Gtk::manage(new Gtk::Label());
     data->set_hexpand(true);
     data->set_vexpand(true);
-    vbox->pack_start(*data, Gtk::PACK_EXPAND_WIDGET, 0);
+    Gtk::ScrolledWindow* scroller = Gtk::manage(new Gtk::ScrolledWindow);
+    scroller->add(*data);
+    vbox->pack_start(*scroller, Gtk::PACK_EXPAND_WIDGET, 0);
 
     // ///////////////////////////////////
     // S T A T U S   B A R   D I S P L A Y
@@ -366,9 +368,10 @@ void Mainwin::on_new_client_click() {
     while(dialog.run()) {
         if(e_name.get_text().size() == 0) {e_name.set_text("*required*"); continue;}
           msg->set_text(e_name.get_text() + " has been added");
-//        shelter->add_animal(*animal);
+	  data->set_text("ADDED CLIENT\nName: "+ e_name.get_text());
+//        shelter->add_client(*client);
 //        std::ostringstream oss;
-//        oss << "Added " << *animal;
+//        oss << "Added " << *client;
 //        status(oss.str());
           break;
      }
