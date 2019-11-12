@@ -63,7 +63,7 @@ Mainwin::Mainwin() : shelter{new Shelter{"Mavs Animal Shelter"}} {
     //           N E W  C L I E N T
     // Append New to the client menu
     Gtk::MenuItem *menuitem_newclient = Gtk::manage(new Gtk::MenuItem("_New", true));
-    //menuitem_newclient->signal_activate().connect([this] {this->on_new_client_click();});
+    menuitem_newclient->signal_activate().connect([this] {this->on_new_client_click();});
     clientmenu->append(*menuitem_newclient);
 
     // /////////////
@@ -87,7 +87,7 @@ Mainwin::Mainwin() : shelter{new Shelter{"Mavs Animal Shelter"}} {
     //Gtk::Image *orderImage = Gtk::manage(new Gtk::Image{"order.png"});
     //list_animal_button = Gtk::manage(new Gtk::Image{*orderImage});
     list_animal_button->set_tooltip_markup("List All Animal Data");
-    list_animal_button->signal_clicked().connect([this] {this->on_list_animal_click();});
+    list_animal_button->signal_clicked().connect([this] {this->on_list_animals_click();});
     toolbar->append(*list_animal_button);
     
 
@@ -191,6 +191,66 @@ void Mainwin::on_list_animals_click() {
     data->set_text(oss.str());
     status("");
 }      // List all animals
+
+
+void Mainwin::on_new_client_click() {
+
+    Gtk::Dialog dialog{"client info", *this};
+
+    Gtk::Grid grid;
+
+    Gtk::Label l_name{"Name"};
+    Gtk::Entry e_name;
+    grid.attach(l_name, 0, 0, 1, 1);
+    grid.attach(e_name, 1, 0, 2, 1);
+
+    Gtk::Label l_number{"Phone:"};
+    Gtk::Entry e_number;
+    e_number.set_text("999-999-9999");
+    grid.attach(l_number, 0, 1, 1, 1);
+    grid.attach(e_number, 1, 1, 2, 1);
+
+    Gtk::Label l_email{"email:"};
+    Gtk::Entry e_email;
+    e_email.set_text("name@example.com");
+    grid.attach(l_email, 0, 2, 1, 1);
+    grid.attach(e_email, 1, 2, 2, 1);
+
+
+//    Gtk::Label l_gender{"Gender"};
+//    Gtk::ComboBoxText c_gender;
+//    c_gender.append("Female");
+//    c_gender.append("Male");
+//    c_gender.set_active(0);
+//    grid.attach(l_gender, 0, 2, 1, 1);
+//    grid.attach(c_gender, 1, 2, 2, 1);
+
+//    Gtk::Label l_age{"Age"};
+//    Gtk::SpinButton s_age;
+//    s_age.set_range(0,99);
+//    s_age.set_increments(1,5);
+//    s_age.set_value(5);
+//    grid.attach(l_age, 0, 3, 1, 1);
+//    grid.attach(s_age, 1, 3, 2, 1);
+
+    dialog.get_content_area()->add(grid);
+
+    dialog.add_button("Add Client", 1);
+    dialog.add_button("Cancel", 0);
+
+    dialog.show_all();
+
+    while(dialog.run()) {
+        if(e_name.get_text().size() == 0) {e_name.set_text("*required*"); continue;}
+          msg->set_text(e_name.get_text() + " has been added");
+//        shelter->add_animal(*animal);
+//        std::ostringstream oss;
+//        oss << "Added " << *animal;
+//        status(oss.str());
+          break;
+     }
+}
+
 
 // /////////////////
 // U T I L I T I E S
