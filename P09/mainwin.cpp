@@ -1,5 +1,6 @@
 #include "mainwin.h"
 #include "dog.h"
+#include "cat.h"
 #include <sstream>
 
 Mainwin::Mainwin() : shelter{new Shelter{"Mavs Animal Shelter"}} {
@@ -152,6 +153,7 @@ void Mainwin::on_new_animal_click() {
 //    mdialog.add_button("DOG", 1);
 //    mdialog.add_button("CAT", 2);
 //    mdialog.add_button("RABBIT", 3);
+
     mdialog.add_button("Cancel", 0);
     mdialog.add_button("OK", 1);
     mdialog.show_all();
@@ -212,6 +214,60 @@ void Mainwin::on_new_animal_click() {
          break;
      }
   }
+  if(row == 1 && mdialog.run()==1){
+     Gtk::Dialog dialog{"Cat Information", *this};
+
+     Gtk::Grid grid;
+
+     Gtk::Label l_name{"Name"};
+     Gtk::Entry e_name;
+     grid.attach(l_name, 0, 0, 1, 1);
+     grid.attach(e_name, 1, 0, 2, 1);
+
+     Gtk::Label l_breed{"Breed"};
+     Gtk::ComboBoxText c_breed;
+     for(auto b : cat_breeds) c_breed.append(to_string(b));
+     c_breed.set_active(0);
+     grid.attach(l_breed, 0, 1, 1, 1);
+     grid.attach(c_breed, 1, 1, 2, 1); 
+
+     Gtk::Label l_gender{"Gender"};
+     Gtk::ComboBoxText c_gender;
+     c_gender.append("Female");
+     c_gender.append("Male");
+     c_gender.set_active(0);
+     grid.attach(l_gender, 0, 2, 1, 1);
+     grid.attach(c_gender, 1, 2, 2, 1); 
+
+     Gtk::Label l_age{"Age"};
+     Gtk::SpinButton s_age;
+     s_age.set_range(0,99);
+     s_age.set_increments(1,5);
+     s_age.set_value(5);
+     grid.attach(l_age, 0, 3, 1, 1);
+     grid.attach(s_age, 1, 3, 2, 1);
+
+     dialog.get_content_area()->add(grid);
+
+     dialog.add_button("Add Cat", 1);
+     dialog.add_button("Cancel", 0);
+
+     dialog.show_all();
+
+     while(dialog.run()) {
+         if(e_name.get_text().size() == 0) {e_name.set_text("*required*"); continue;}
+         Animal* animal = new Cat{cat_breeds[c_breed.get_active_row_number()], 
+                                  e_name.get_text(),
+                                  (c_gender.get_active_row_number() ? Gender::MALE : Gender::FEMALE),
+                                  static_cast<int>(s_age.get_value())};
+         shelter->add_animal(*animal);
+         std::ostringstream oss;
+         oss << "Added " << *animal;
+         status(oss.str());
+         break;
+     }
+  }
+   
  }
 }
 void Mainwin::on_list_animals_click() {
