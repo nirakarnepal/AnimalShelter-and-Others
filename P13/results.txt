@@ -1,0 +1,39 @@
+max_int for my machine (between 20 and 30 second runtime without threads):
+
+Without threads:
+real	0m29.465s
+user	0m29.342s
+sys	0m0.016s
+
+
+With 2 threads:
+
+
+
+With 4 threads:
+
+
+
+With 8 threads:
+
+
+
+With 16 threads:
+
+
+
+With 32 threads:
+
+
+
+With 64 threads:
+
+
+
+QUESTION: After threading is added to threads.cpp, is the order of prime numbers found in primes_threads.txt the same or different than in primes.txt?  Why?
+
+
+QUESTION: Does adding more threads continue to speed up the program? Do more threads ever slow down the program slightly?  Why or why not?
+
+
+QUESTION: Does adding more threads increase the "system load", or is it constant regardless of the number of threads?  Why?
