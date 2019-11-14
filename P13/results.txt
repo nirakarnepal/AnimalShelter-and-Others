@@ -1,4 +1,4 @@
-max_int for my machine (between 20 and 30 second runtime without threads):
+max_int for my machine (between 20 and 30 second runtime without threads): 10000000
 
 Without threads:
 real	0m29.465s
