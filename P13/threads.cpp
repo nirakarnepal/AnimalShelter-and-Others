@@ -1,6 +1,8 @@
 #include <cmath>
 #include <iostream>
 #include <vector>
+#include <mutex>
+#include <thread>
 
 // To measure performance, use
 // $ make timep
@@ -26,12 +28,29 @@ class Prime_numbers {
     // NOTE: You'll likely need to break out the for loop as a separate
     //     method, which will be the code executed by each thread.
     //     The find_prime method will just create and managed the threads.
-    void find_primes(int lower, int upper) {
+    void find_primes_thread(int& lower, int& upper){
+        m.lock();
         for (int i=lower; i<=upper; ++i) {
             if (is_prime(i)) {
                 primes.push_back(i);
             }
         }
+        m.unlock();
+    }
+    void find_primes(int lower, int upper) {
+        while(num_thread >= 1)
+        {
+           upper = 
+           for(ini i= 0;  i<((upper-lower)/num_thread) ;i++){
+            std::thread th{find_primes_thread, ref(lower), ref(upper)};
+	    std::this_thread::sleep_for(std::chrono::milliseconds(100));
+	    th.join();
+	   }
+        }
+
+	
+    
+
     }    
 
     typedef std::vector<int> Primes;
@@ -41,6 +60,7 @@ class Prime_numbers {
     typedef Primes::const_iterator const_iterator;
     iterator begin() {return primes.begin();}
     iterator end() {return primes.end();}
+    std::mutex m;
 
   private:
     const int NUM_THREADS;
