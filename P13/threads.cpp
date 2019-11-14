@@ -50,14 +50,8 @@ class Prime_numbers {
 	    std::this_thread::sleep_for(std::chrono::milliseconds(100));
             threads.push_back(th);
             i++;
-	   }
-          for(auto t:threads)
-            {
-              t.join();
-            }
-       
-
-	
+            th.join();
+	   }	
     
 
     }    
