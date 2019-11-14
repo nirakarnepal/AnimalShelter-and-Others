@@ -38,15 +38,24 @@ class Prime_numbers {
         m.unlock();
     }
     void find_primes(int lower, int upper) {
-        while(num_thread >= 1)
+        std::vector<std::thread> threads;
+        int searchPerThread = (upper-lower)/NUM_THREADS;
+        int i = 0;
+        int newLower, newUpper;
+        while(i <= NUM_THREADS)
         {
-           upper = 
-           for(ini i= 0;  i<((upper-lower)/num_thread) ;i++){
-            std::thread th{find_primes_thread, ref(lower), ref(upper)};
+           newLower = lower + searchPerThread*i; 
+           newUpper = lower + searchPerThread*(i+1);
+            std::thread th{find_primes_thread, newLower, newUpper};
 	    std::this_thread::sleep_for(std::chrono::milliseconds(100));
-	    th.join();
+            threads.push_back(th);
+            i++;
 	   }
-        }
+          for(auto t:threads)
+            {
+              t.join();
+            }
+       
 
 	
     

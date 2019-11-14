@@ -1,32 +1,51 @@
 max_int for my machine (between 20 and 30 second runtime without threads): 10000000
 
+i did ( make timep 2 10000000) it worked.. answer are based on this terminal code
 Without threads:
 real	0m29.465s
 user	0m29.342s
 sys	0m0.016s
 
 
-With 2 threads:
+With 2 threads: make timep 2 10000000
+real	0m28.459s
+user	0m28.049s
+sys	0m0.021s
 
 
 
-With 4 threads:
+With 4 threads: make timep 4 10000000
+real	0m27.958s
+user	0m27.899s
+sys	0m0.008s
 
 
 
-With 8 threads:
+With 8 threads: make timep 8 10000000
+real	0m33.160s
+user	0m32.586s
+sys	0m0.044s
 
 
 
-With 16 threads:
+With 16 threads:make timep 16 10000000
+real	0m39.779s
+user	0m38.374s
+sys	0m0.032s
 
 
 
-With 32 threads:
+With 32 threads:make timep 32 10000000
+real	0m38.909s
+user	0m37.520s
+sys	0m0.048s
 
 
 
-With 64 threads:
+With 64 threads:make timep 64 10000000
+real	0m36.442s
+user	0m35.849s
+sys	0m0.052s
 
 
 
