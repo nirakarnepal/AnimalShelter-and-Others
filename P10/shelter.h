@@ -17,6 +17,8 @@ class Shelter {
     void add_client(Client& client);
     int num_clients();
     Client& client(int index);
+    
+    void adopt(Client& client, Animal& animal);
 
   private:
     std::string _name;

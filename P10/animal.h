@@ -17,11 +17,12 @@ class Animal {
     std::string name() const;
     Gender gender() const;
     int age() const;
+    std::string _name;
 
     virtual std::string to_string() const;
     friend std::ostream& operator<<(std::ostream& ost, const Animal& animal);
   protected:
-    std::string _name;
+    
     Gender _gender;
     int _age;
 };
