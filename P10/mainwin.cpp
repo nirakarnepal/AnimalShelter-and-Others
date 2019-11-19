@@ -433,15 +433,15 @@ void Mainwin::on_adopt_animal_click(){
     Gtk::ComboBoxText c_aname;
     for(int i=0; i<shelter->num_animals(); ++i)
        {
-         c_aname.append(shelter->animal(i)._name);  
+         c_aname.append(shelter->animal(i).to_string());  
        }
 
     c_aname.set_active(0);
     grid.attach(c_aname, 0, 1, 1, 1);
     int active = c_aname.get_active_row_number(); 
-//    String adop = shelter->animal(active)._name + " has been adopted by " + shelter->client(c_active)._name;
+
     dialog.get_content_area()->add(grid);
-    //data->set_text(shelter->animal(active)._name + " has been adopted");
+ 
     dialog.add_button("Adopt", 1);
     dialog.add_button("Cancel", 0);
 
