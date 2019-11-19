@@ -8,11 +8,7 @@
 class Client {
   public:
     Client(std::string name, std::string phone, std::string email);
-    virtual ~Client();
-    
-    std::string name() const;
-    std::string phone() const;
-    std::string email() const;
+    //virtual ~Client();
 
     virtual std::string to_string() const;
     friend std::ostream& operator<<(std::ostream& ost, const Client& client);

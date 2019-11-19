@@ -1,4 +1,5 @@
 #include "rabbit.h"
+#include <map>
 
 // Constructor / Destructor - note how delegation to base class works!
 Rabbit::Rabbit(Rabbit_breed breed, std::string name, Gender gender, int age)
@@ -11,14 +12,24 @@ std::string Rabbit::breed() const {return ::to_string(_breed);}
 
 // Convert breed to string and stream - use a std::map for other derived classes!
 std::string to_string(const Rabbit_breed& breed) {
-    switch(breed) {
-
-        case  Rabbit_breed::AMERICAN:    return "American";
-        case  Rabbit_breed::BELGIAN:    return "Belgian";
-        case  Rabbit_breed::DUTCH:    return "Dutch";
-        case  Rabbit_breed::BLANC:    return "Blanc";
- 
-        default:                     return "UNKNOWN";
+    std::map<Rabbit_breed,std::string> rabbits_map {
+        { Rabbit_breed::CALIFORNIA_WHITE,  "California White"}, 
+        { Rabbit_breed::VIENNA_WHITE,  "Vienna White"},
+        { Rabbit_breed::CHINCHILLA,  "Chinchilla"}, 
+        { Rabbit_breed::GIANT_CHINCHILLA,  "Giant Chinchilla"}, 
+        { Rabbit_breed::FLEMISH_CHINCHILLA,  "Flemish Chinchilla"}, 
+        { Rabbit_breed::REX,  "Rex"}, 
+        { Rabbit_breed::LIONHEAD,  "Lionhead"}, 
+        { Rabbit_breed::SILVER_FOX,  "Silver Fox"}, 
+        { Rabbit_breed::NEW_ZEALAND,  "New Zealand"}, 
+        { Rabbit_breed::LOP,  "Lop"}, 
+        { Rabbit_breed::POLISH,  "Polish"}, 
+        { Rabbit_breed::HARLEQUIN,  "Harlequin"},
+    };
+    try {
+        return rabbits_map.at(breed);
+    } catch (std::exception& e) {
+        return "Unknown";
     }
 }
 std::ostream& operator<<(std::ostream& ost, const Rabbit_breed& breed) {

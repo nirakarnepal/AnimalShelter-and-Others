@@ -3,6 +3,7 @@
 #include "cat.h"
 #include "rabbit.h"
 #include <sstream>
+#include "client.h"
 
 Mainwin::Mainwin() : shelter{new Shelter{"Mavs Animal Shelter"}} {
 
@@ -69,7 +70,7 @@ Mainwin::Mainwin() : shelter{new Shelter{"Mavs Animal Shelter"}} {
     clientmenu->append(*menuitem_newclient);
 
         //           L I S T
-    // Append List to the Animal menu
+    // Append List to the CLient menu
     Gtk::MenuItem *menuitem_listclient = Gtk::manage(new Gtk::MenuItem("_List", true));
     //menuitem_listclient->signal_activate().connect([this] {this->on_list_clients_click();});
     clientmenu->append(*menuitem_listclient);
@@ -81,14 +82,14 @@ Mainwin::Mainwin() : shelter{new Shelter{"Mavs Animal Shelter"}} {
     Gtk::Menu *adoptmenu = Gtk::manage(new Gtk::Menu());
     menuitem_adopt->set_submenu(*adoptmenu);
 
-    //           N E W  C L I E N T
-    // Append New to the client menu
+    //           N E W  Adopt
+    // Append New to the Adoption menu
     Gtk::MenuItem *menuitem_newadopt = Gtk::manage(new Gtk::MenuItem("_Adopt", true));
     //menuitem_newadopt->signal_activate().connect([this] {this->on_new_client_click();});
     adoptmenu->append(*menuitem_newadopt);
 
         //           L I S T
-    // Append List to the Animal menu
+    // Append List to the Adoption menu
     Gtk::MenuItem *menuitem_listadopt = Gtk::manage(new Gtk::MenuItem("_List", true));
     //menuitem_listadopt->signal_activate().connect([this] {this->on_list_clients_click();});
     adoptmenu->append(*menuitem_listadopt);
@@ -120,14 +121,14 @@ Mainwin::Mainwin() : shelter{new Shelter{"Mavs Animal Shelter"}} {
     Gtk::Image* imageClient = Gtk::manage(new Gtk::Image{"Client.png"});
     Gtk::ToolButton *add_client_button = Gtk::manage(new Gtk::ToolButton(*imageClient));
     add_client_button->set_tooltip_markup("Add a New CLient");
-    //add_client_button->signal_clicked().connect([this] {this->on_new_client_click();});
+    add_client_button->signal_clicked().connect([this] {this->on_new_client_click();});
     toolbar->append(*add_client_button);
 
     //to List Client
     Gtk::Image* imageCList = Gtk::manage(new Gtk::Image{"CList.png"});
     Gtk::ToolButton *add_clist_button = Gtk::manage(new Gtk::ToolButton(*imageCList));
     add_clist_button->set_tooltip_markup("List All Clients");
-    //add_clist_button->signal_clicked().connect([this] {this->on_list_client_click();});
+    add_clist_button->signal_clicked().connect([this] {this->on_list_clients_click();});
     toolbar->append(*add_clist_button);
     
         //to Adopt animal
@@ -381,6 +382,13 @@ void Mainwin::on_list_animals_click() {
     status("");
 }      // List all animals
 
+void Mainwin::on_list_clients_click() {
+    std::ostringstream oss;
+    for(int i=0; i<shelter->num_clients(); ++i)
+        oss << shelter->client(i) << '\n'; 
+    data->set_text(oss.str());
+    status("");
+} 
 
 void Mainwin::on_new_client_click() {
 
@@ -394,10 +402,10 @@ void Mainwin::on_new_client_click() {
     grid.attach(e_name, 1, 0, 2, 1);
 
     Gtk::Label l_number{"Phone:"};
-    Gtk::Entry e_number;
-    e_number.set_text("999-999-9999");
+    Gtk::Entry e_phone;
+    e_phone.set_text("999-999-9999");
     grid.attach(l_number, 0, 1, 1, 1);
-    grid.attach(e_number, 1, 1, 2, 1);
+    grid.attach(e_phone, 1, 1, 2, 1);
 
     Gtk::Label l_email{"email:"};
     Gtk::Entry e_email;
@@ -420,7 +428,8 @@ void Mainwin::on_new_client_click() {
 //        std::ostringstream oss;
 //        oss << "Added " << *client;
 //        status(oss.str());
-          break;
+          shelter->add_client(*(new Client{e_name.get_text(), e_phone.get_text(), e_email.get_text()}));
+        break;
      }
 }
 
