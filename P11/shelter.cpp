@@ -27,10 +27,11 @@ std::string Shelter::get_filename() {return filename;}
 void Shelter::set_filename(std::string filename) {this->filename = filename;}
 
 void Shelter::save(std::ostream& ost) {
-    
+        ost << num_clients();
     for(int i=0; i<num_clients(); ++i)
         ost << client(i) << '\n'; 
-    
+        
+        ost << num_animals();
     for(int i=0; i<num_animals(); ++i)
         ost << animal(i) << '\n';
    
@@ -40,5 +41,9 @@ void Shelter::save(std::ostream& ost) {
 //      ost << std::endl;  // one line per shape (this is ignored when loading)
 //  }
 //  dirty = false;
+
 }
+
+
+//void Shelter::load(std::istream& ist);
 

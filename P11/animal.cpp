@@ -28,3 +28,11 @@ std::ostream& operator<<(std::ostream& ost, const Gender& gender) {
     return ost;
 }
 
+void Animal::save(std::ostream& ost) {
+    
+   
+    ost << _name;
+
+
+}
+

@@ -17,6 +17,9 @@ class Client {
     void adopt(Animal& animal);
     
     friend std::ostream& operator<<(std::ostream& ost, const Client& client);
+
+    void save(std::ostream& ost);
+    void load(std::istream& ist);
   private:
     
     std::string _name;

@@ -31,3 +31,11 @@ std::ostream& operator<<(std::ostream& ost, const Dog_breed& breed) {
     ost << ::to_string(breed);
     return ost;
 }
+
+void Dog::save(std::ostream& ost) {
+    
+   
+    ost << breed();
+
+
+}

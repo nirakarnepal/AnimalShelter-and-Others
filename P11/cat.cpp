@@ -33,3 +33,11 @@ std::ostream& operator<<(std::ostream& ost, const Cat_breed& breed) {
     ost << ::to_string(breed);
     return ost;
 }
+
+void Cat::save(std::ostream& ost) {
+    
+   
+    ost << breed();
+
+
+}
