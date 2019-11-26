@@ -4,6 +4,7 @@
 #include "animal.h"
 #include "client.h"
 #include <vector>
+#include <string>
 
 class Shelter {
   public:
@@ -19,6 +20,13 @@ class Shelter {
     Client& client(int index);
 
     void adopt(Client& client, Animal& animal);
+
+
+
+    std::string get_filename();
+    void set_filename(std::string filename);
+
+
   private:
     std::string _name;
     std::vector<Animal*> _available;
