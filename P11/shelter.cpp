@@ -23,3 +23,22 @@ void Shelter::adopt(Client& client, Animal& animal) {
 
 }
 
+std::string Shelter::get_filename() {return filename;}
+void Shelter::set_filename(std::string filename) {this->filename = filename;}
+
+void Shelter::save(std::ostream& ost) {
+    
+    for(int i=0; i<num_clients(); ++i)
+        ost << client(i) << '\n'; 
+    
+    for(int i=0; i<num_animals(); ++i)
+        ost << animal(i) << '\n';
+   
+//  for (Graph_lib::Animal* a : animals) {
+//      ost << typeid(*s).name() << ' '; // Write the name of the actual type
+//      a->save(ost);
+//      ost << std::endl;  // one line per shape (this is ignored when loading)
+//  }
+//  dirty = false;
+}
+

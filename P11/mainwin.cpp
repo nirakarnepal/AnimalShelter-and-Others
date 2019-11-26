@@ -7,7 +7,9 @@
 #include <iostream>
 #include <string.h>
 
+
 Mainwin::Mainwin() : shelter{new Shelter{"Mavs Animal Shelter"}} {
+
 
     // /////////////////
     // G U I   S E T U P
@@ -33,10 +35,18 @@ Mainwin::Mainwin() : shelter{new Shelter{"Mavs Animal Shelter"}} {
     Gtk::Menu *filemenu = Gtk::manage(new Gtk::Menu());
     menuitem_file->set_submenu(*filemenu);
 
+
+    //         N E W
+    // Append New to the File menu
+    Gtk::MenuItem *menuitem_new = Gtk::manage(new Gtk::MenuItem("_New", true));
+    menuitem_new->signal_activate().connect([this] {this->on_new_click();});
+    filemenu->append(*menuitem_new);
+
+
     //         S A V E 
     // Append Save to the File menu
     Gtk::MenuItem *menuitem_save = Gtk::manage(new Gtk::MenuItem("_Save", true));
-    //menuitem_save->signal_activate().connect([this] {this->on_save_click();});
+    menuitem_save->signal_activate().connect([this] {this->on_save_click();});
     filemenu->append(*menuitem_save);
 
     //         Open 
@@ -204,6 +214,19 @@ Mainwin::~Mainwin() { }
 void Mainwin::on_quit_click() {
     close();
 }
+
+void Mainwin::on_new_click()
+{
+   shelter = new Shelter{"New Mavs Animal Shelter"};
+   msg->set_text("New Shelter");
+   data->set_text("New Shelter");
+}
+
+//void Mainwin::on_save_click() {
+
+//        data->set_text("File has been saved");
+//   
+//}
 
 void Mainwin::on_new_animal_click() {
 
@@ -614,6 +637,19 @@ void Mainwin::on_open_click() {
 //        }
 //    }
 }
+
+void Mainwin::on_save_click() {
+    try {
+        std::ofstream ofs{shelter->get_filename()};
+        shelter->save(ofs);
+        Gtk::MessageDialog{*this, "File Has Been Saved"}.run();
+
+    } catch(std::exception e) {
+        Gtk::MessageDialog{*this, "Unable to save data", false, Gtk::MESSAGE_ERROR}.run();
+    }
+}
+
+
 
 
 // /////////////////

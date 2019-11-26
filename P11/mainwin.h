@@ -19,6 +19,7 @@ class Mainwin : public Gtk::Window {
         void on_new_animal_click();        // Create a new animal
         void on_list_animals_click();      // List all animals
 	void on_open_click();              // Open file
+	void on_new_click();              // new window
 	void on_save_click();              // Savefile
         void on_new_client_click();        // Add new client
 	void on_list_clients_click();      // List available client
