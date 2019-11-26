@@ -33,11 +33,25 @@ Mainwin::Mainwin() : shelter{new Shelter{"Mavs Animal Shelter"}} {
     Gtk::Menu *filemenu = Gtk::manage(new Gtk::Menu());
     menuitem_file->set_submenu(*filemenu);
 
+    //         S A V E 
+    // Append Save to the File menu
+    Gtk::MenuItem *menuitem_save = Gtk::manage(new Gtk::MenuItem("_Save", true));
+    //menuitem_save->signal_activate().connect([this] {this->on_save_click();});
+    filemenu->append(*menuitem_save);
+
+    //         L O A D 
+    // Append Load to the File menu
+    Gtk::MenuItem *menuitem_open = Gtk::manage(new Gtk::MenuItem("_Open", true));
+    //menuitem_open->signal_activate().connect([this] {this->on_open_click();});
+    filemenu->append(*menuitem_open);
+
     //         Q U I T
     // Append Quit to the File menu
     Gtk::MenuItem *menuitem_quit = Gtk::manage(new Gtk::MenuItem("_Quit", true));
     menuitem_quit->signal_activate().connect([this] {this->on_quit_click();});
     filemenu->append(*menuitem_quit);
+
+
 
     //     A N I M A L
     // Create an Animal menu and add to the menu bar
@@ -139,6 +153,13 @@ Mainwin::Mainwin() : shelter{new Shelter{"Mavs Animal Shelter"}} {
     add_adopt_button->set_tooltip_markup("Adopt Animal");
     add_adopt_button->signal_clicked().connect([this] {this->on_adopt_animal_click();});
     toolbar->append(*add_adopt_button);
+
+        //to List Adopted animals
+    Gtk::Image* imageAdoptList = Gtk::manage(new Gtk::Image{"AdoptedList.png"});
+    Gtk::ToolButton *add_adoptList_button = Gtk::manage(new Gtk::ToolButton(*imageAdoptList));
+    add_adoptList_button->set_tooltip_markup("List Adopted Animals");
+    add_adoptList_button->signal_clicked().connect([this] {this->on_list_adopted_click();});
+    toolbar->append(*add_adoptList_button);
 
 
 //////////////for Quit button
