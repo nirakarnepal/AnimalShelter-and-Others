@@ -62,6 +62,12 @@ Mainwin::Mainwin() : shelter{new Shelter{"Mavs Animal Shelter"}} {
     menuitem_open->signal_activate().connect([this] {this->on_open_click();});
     filemenu->append(*menuitem_open);
 
+    //         Open  A S
+    // Append Open to the File menu
+    Gtk::MenuItem *menuitem_openas = Gtk::manage(new Gtk::MenuItem("_OpenAs", true));
+    menuitem_openas->signal_activate().connect([this] {this->on_open_as_click();});
+    filemenu->append(*menuitem_openas);
+
     //         Q U I T
     // Append Quit to the File menu
     Gtk::MenuItem *menuitem_quit = Gtk::manage(new Gtk::MenuItem("_Quit", true));
@@ -736,6 +742,65 @@ void Mainwin::on_open_click() {
         std::ostringstream oss;
         oss << "Unable to open file: untitled.mass\n" << e.what();
         Gtk::MessageDialog{*this, oss.str(), false, Gtk::MESSAGE_ERROR}.run();
+    }
+}
+
+void Mainwin::on_open_as_click() {
+    // Don't lose existing data
+    //if(!all_data_saved()) return;
+
+    Gtk::FileChooserDialog dialog("Please choose a file",
+          Gtk::FileChooserAction::FILE_CHOOSER_ACTION_OPEN);
+    dialog.set_transient_for(*this);
+
+    auto filter_ctp = Gtk::FileFilter::create();
+    filter_ctp->set_name(EXT);
+    filter_ctp->add_pattern("*."+EXT);
+    dialog.add_filter(filter_ctp);
+ 
+    auto filter_any = Gtk::FileFilter::create();
+    filter_any->set_name("Any files");
+    filter_any->add_pattern("*");
+    dialog.add_filter(filter_any);
+
+    dialog.set_filename("untitled."+EXT);
+
+    //Add response buttons the the dialog:
+    dialog.add_button("_Cancel", 0);
+    dialog.add_button("_Open", 1);
+
+    int result = dialog.run();
+
+    if (result == 1) {
+
+
+       try {
+        delete shelter;
+        std::ifstream ifs{dialog.get_filename()};
+        std::string s;
+        std::getline(ifs,s);
+        if(s != COOKIE) throw std::runtime_error{"Not a MASS file"};
+        std::getline(ifs,s);
+        if(s != VERSION) throw std::runtime_error{"Incompatible MASS file version"};
+        shelter = new Shelter{ifs};
+    } catch (std::exception& e) {
+        std::ostringstream oss;
+        oss << "Unable to open file: untitled.mass\n" << e.what();
+        Gtk::MessageDialog{*this, oss.str(), false, Gtk::MESSAGE_ERROR}.run();
+    }
+//        try {
+
+//            delete shelter;
+//            std::ifstream ifs{dialog.get_filename()};
+//            std::string s;
+//            std::getline(ifs,s);
+//            //std::ifstream ifs{dialog.get_filename()};
+//            //canvas->load(ifs);
+//        } catch (std::exception& e) {
+//            Gtk::MessageDialog{*this, "Unable to open painting", false, Gtk::MESSAGE_ERROR}.run();
+//        }
+//      
+       
     }
 }
 
