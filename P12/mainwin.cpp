@@ -9,7 +9,7 @@
 #include <string.h>
 
 
-Mainwin::Mainwin() : shelter{new Shelter{"Mavs Animal Shelter"}} {
+Mainwin::Mainwin() : shelter{new Shelter{"Yoda Animal Shelter"}} {
 
 
     // /////////////////
@@ -18,7 +18,9 @@ Mainwin::Mainwin() : shelter{new Shelter{"Mavs Animal Shelter"}} {
 
     set_default_size(800, 600);
     set_title(APP_TITLE);
-
+    //Gtk::Image* yoda = Gtk::manage(new Gtk::Image{"yoda.png"});
+//auto logo = Gdk::Pixbuf::create_from_file("yoda.png");
+    //set_logo(*yoda);
     // Put a vertical box container as the Window contents
     Gtk::Box *vbox = Gtk::manage(new Gtk::VBox);
     add(*vbox);
@@ -52,7 +54,7 @@ Mainwin::Mainwin() : shelter{new Shelter{"Mavs Animal Shelter"}} {
 
     //         S A V E    A S
     // Append Save to the File menu
-    Gtk::MenuItem *menuitem_saveas = Gtk::manage(new Gtk::MenuItem("_SaveAs", true));
+    Gtk::MenuItem *menuitem_saveas = Gtk::manage(new Gtk::MenuItem("Save As..", true));
     menuitem_saveas->signal_activate().connect([this] {this->on_save_as_click();});
     filemenu->append(*menuitem_saveas);
 
@@ -64,7 +66,7 @@ Mainwin::Mainwin() : shelter{new Shelter{"Mavs Animal Shelter"}} {
 
     //         Open  A S
     // Append Open to the File menu
-    Gtk::MenuItem *menuitem_openas = Gtk::manage(new Gtk::MenuItem("_OpenAs", true));
+    Gtk::MenuItem *menuitem_openas = Gtk::manage(new Gtk::MenuItem("Open As..", true));
     menuitem_openas->signal_activate().connect([this] {this->on_open_as_click();});
     filemenu->append(*menuitem_openas);
 
@@ -150,7 +152,7 @@ Mainwin::Mainwin() : shelter{new Shelter{"Mavs Animal Shelter"}} {
     // T O O L B A R
     // Add a toolbar to the vertical box below the menu
     Gtk::Toolbar *toolbar = Gtk::manage(new Gtk::Toolbar);
-    toolbar->override_background_color(Gdk::RGBA{"gray"});
+    toolbar->override_background_color(Gdk::RGBA{"white"});
     vbox->pack_start(*toolbar, Gtk::PACK_SHRINK, 0);
 
     //to Add Animals
@@ -162,7 +164,8 @@ Mainwin::Mainwin() : shelter{new Shelter{"Mavs Animal Shelter"}} {
 
 
    ///list Animal button
-    Gtk::ToolButton *list_animal_button = Gtk::manage(new Gtk::ToolButton(Gtk::Stock::FILE));
+    Gtk::Image* imageLAnimal = Gtk::manage(new Gtk::Image{"ListAnimal.png"});
+    Gtk::ToolButton *list_animal_button = Gtk::manage(new Gtk::ToolButton(*imageLAnimal));
     //Gtk::Image *orderImage = Gtk::manage(new Gtk::Image{"order.png"});
     //list_animal_button = Gtk::manage(new Gtk::Image{*orderImage});
     list_animal_button->set_tooltip_markup("List All Animal Data");
@@ -224,7 +227,7 @@ Mainwin::Mainwin() : shelter{new Shelter{"Mavs Animal Shelter"}} {
     // Provide a status bar for program messages
     msg = Gtk::manage(new Gtk::Label());
     msg->set_hexpand(true);
-    msg->override_background_color(Gdk::RGBA{"gray"});
+    msg->override_background_color(Gdk::RGBA{"red"});
     vbox->pack_start(*msg, Gtk::PACK_SHRINK, 0);
 
     // Make the box and everything in it visible
@@ -483,6 +486,7 @@ void Mainwin::on_adopt_animal_click(){
       }
      
     Gtk::Dialog dialog{"Adopt Animal", *this};
+    //Gtk::Dialog dialog{"Adopt Animal"};
     Gtk::Grid grid;
 
     Gtk::Label a_name{"Available Animals:   "};
@@ -515,16 +519,39 @@ void Mainwin::on_adopt_animal_click(){
     grid.attach(c_aname, 0, 1, 1, 1);
     int active;// = c_aname.get_active_row_number(); 
 
-    Gtk::Image* Try = Gtk::manage(new Gtk::Image{"Adopt.png"});
+    //Gtk::Image* FB1 = Gtk::manage(new Gtk::Image{"Client.png"});
     //Gtk::Button button1{"Add Client"};
-    Gtk::Button button1;
-    button1.set_image(*Try);
-    button1.set_label("Add Client");
+    //Gtk::Button button1;
+    //button1.set_image(*FB1);
+    //button1.set_label("Add Client");
+    //button1.signal_clicked().connect([this] {this->on_new_client_click();});
+    //dialog.close();
+
+    //Gtk::Image* FB2 = Gtk::manage(new Gtk::Image{"Animal.png"});
+    Gtk::Button button1{"Add Client"};
     Gtk::Button button2{"Add Animal"};
+    //button2.set_image(*FB2);
+    //button2.set_label{"Add Animal"};
+    button1.signal_clicked().connect([this] {this->on_new_client_click();});
+    button1.signal_clicked().connect([this]{this->on_adopt_animal_click();});
+    //button1.signal_clicked().connect([this]{this->return;});
+    //delete dialog;
+    //button1.signal_pressed().connect(sigc::mem_fun(*this,&on_adopt_animal_click::close));
+
+    button2.signal_clicked().connect([this] {this->on_new_animal_click();});
+    button1.signal_clicked().connect([this]{this->on_adopt_animal_click();});
+    
     grid.attach(button1, 0, 2, 1, 1);
     grid.attach(button2, 1, 2, 1, 1);
+
+    Gtk::Image image;
+    image.set("yoda.png");
+    
+    grid.attach(image, 0, 3, 1, 1);     
+
     Gtk::Button button3{"View Animal"};
     grid.attach(button3, 1 , 3 , 1, 1);
+    
 
 
     
@@ -788,18 +815,7 @@ void Mainwin::on_open_as_click() {
         oss << "Unable to open file: untitled.mass\n" << e.what();
         Gtk::MessageDialog{*this, oss.str(), false, Gtk::MESSAGE_ERROR}.run();
     }
-//        try {
-
-//            delete shelter;
-//            std::ifstream ifs{dialog.get_filename()};
-//            std::string s;
-//            std::getline(ifs,s);
-//            //std::ifstream ifs{dialog.get_filename()};
-//            //canvas->load(ifs);
-//        } catch (std::exception& e) {
-//            Gtk::MessageDialog{*this, "Unable to open painting", false, Gtk::MESSAGE_ERROR}.run();
-//        }
-//      
+  
        
     }
 }
@@ -807,17 +823,20 @@ void Mainwin::on_open_as_click() {
 void Mainwin::on_about_click() {
     Gtk::AboutDialog dialog{};
     dialog.set_transient_for(*this); // Avoid the discouraging warning
-    dialog.set_program_name("DoN Vai");
-    auto logo = Gdk::Pixbuf::create_from_file("Adopt.png");
+    dialog.set_program_name("Yoda Adoptation Center");
+    auto logo = Gdk::Pixbuf::create_from_file("logo.png");
     dialog.set_logo(logo);
     dialog.set_version(VERSION);
     dialog.set_copyright("Copyright 2017-2019");
     dialog.set_license_type(Gtk::License::LICENSE_GPL_3_0);
-    std::vector< Glib::ustring > authors = {"George F. Rice"};
+    std::vector< Glib::ustring > authors = {"Nirakar Nepal \nCode Help: Professor George F. Rice"};
     dialog.set_authors(authors);
-    //std::vector< Glib::ustring > artists = {};
-    //dialog.set_artists(artists);
-    //dialog.set_comments("The two players alternate taking 1 to 3 sticks from the pile.\nThe goal is to force your opponent to take the last stick.\nIf the computer button is up, it's a two player game.\nIf down, the computer is always Player 2.");
+std::vector< Glib::ustring > artists = {"Nirakar Nepal",
+                                            "Ped Adoption! background image from Sterling Animal Shelter https://www.sterlingshelter.org/important-info-adoption-days",
+    
+    };
+    dialog.set_artists(artists);
+    dialog.set_comments("Welcome to our Animal Shelter !!");
     dialog.run();
 }
 

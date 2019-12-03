@@ -30,6 +30,7 @@ class Mainwin : public Gtk::Window {
         void on_adopt_animal_click();      // Adopt animal
 	void on_list_adopted_click();      // List adopted animal
 	void status(std::string s);        // Set the status message
+        bool all_data_saved();                     // True means safe to close or open other file
     private:
         Shelter *shelter;                  // Current animal shelter
         Gtk::Label *data;                  // Display of sticks on game board
