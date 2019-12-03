@@ -8,7 +8,7 @@
 #include <fstream>
 #include <string.h>
 
-
+//bool dirty = false;
 Mainwin::Mainwin() : shelter{new Shelter{"Yoda Animal Shelter"}} {
 
 
@@ -774,7 +774,7 @@ void Mainwin::on_open_click() {
 
 void Mainwin::on_open_as_click() {
     // Don't lose existing data
-    //if(!all_data_saved()) return;
+    if(!all_data_saved()) return;
 
     Gtk::FileChooserDialog dialog("Please choose a file",
           Gtk::FileChooserAction::FILE_CHOOSER_ACTION_OPEN);
@@ -841,10 +841,36 @@ std::vector< Glib::ustring > artists = {"Nirakar Nepal",
 }
 
 
+
+
 // /////////////////
 // U T I L I T I E S
 // /////////////////
 
 void Mainwin::status(std::string s) {
     msg->set_text(s);
+}
+
+bool Mainwin::all_data_saved() {
+  //if (canvas->saved()) return true;
+  Gtk::MessageDialog dialog{*this, "Unsaved data will be lost", false, 
+                            Gtk::MESSAGE_WARNING, Gtk::BUTTONS_NONE};
+  dialog.add_button("Save", 1);
+  //dialog.add_button("Discard", 2);
+  dialog.add_button("Cancel", 3);
+  int response = dialog.run();
+  if (response == 1) {        // Save
+    try {
+        on_save_as_click();
+        return true; // save was successful
+    } catch(std::exception& e) {
+        Gtk::MessageDialog{*this, "Unable to save data", false, Gtk::MESSAGE_ERROR}.run();
+        return false;
+    }
+//  } else if (response == 2) { // Discard
+//    clear();
+//    return true;
+  } else {                    // Cancel
+    return false;
+  }
 }
