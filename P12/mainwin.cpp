@@ -856,7 +856,7 @@ bool Mainwin::all_data_saved() {
   Gtk::MessageDialog dialog{*this, "Unsaved data will be lost", false, 
                             Gtk::MESSAGE_WARNING, Gtk::BUTTONS_NONE};
   dialog.add_button("Save", 1);
-  //dialog.add_button("Discard", 2);
+  dialog.add_button("Discard", 2);
   dialog.add_button("Cancel", 3);
   int response = dialog.run();
   if (response == 1) {        // Save
@@ -867,9 +867,9 @@ bool Mainwin::all_data_saved() {
         Gtk::MessageDialog{*this, "Unable to save data", false, Gtk::MESSAGE_ERROR}.run();
         return false;
     }
-//  } else if (response == 2) { // Discard
+  } else if (response == 2) { // Discard
 //    clear();
-//    return true;
+    return true;
   } else {                    // Cancel
     return false;
   }
